@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>Fantasy Golf</title>
+  </head>
+  <style>
+    .leaderboard {
+      width: 100%;
+      display: flex;
+      flex-direction:column;
+      padding: 3% 3%;
+    }
+    .leaderboard > div {
+      width: 100%
+    }
+    .row {
+      display: flex;
+    }
+    .row > div {
+      width: 20%;
+    }
+    .playerteam {
+      margin: 1% 0%;
+    }
+  </style>
+
+  <body>
+      <a href="createteam.html">Create Team</a>
+      <a href="viewcurrent.html">View Current Team</a>
+      <a href="teamhistory.html">Past Teams</a>
+
+      <div class="leaderboard" id="leaderboard">
+          <div class="playerteam">
+              <div id="playername"></div>
+              <div class="row">
+                  <div>Player</div>
+                  <div>R1 Score</div>
+                  <div>R2 Score</div>
+                  <div>R3 Score</div>
+                  <div>R4 Score</div>
+              </div>
+          </div>
+      </div>
+  </body>
+  <script>
+  window.onload = (e) => {
+    var leaderboardDiv = document.getElementById("leaderboard");
+
+    setInterval(() => {
+      fetch("/api/getleaderboard")
+      .then(res => { return res.json() })
+      .then(data => {
+        var baseDOM = document.getElementById("leaderboard");
+        baseDOM.innerHTML = `          <div class="playerteam">
+              <div id="playername"></div>
+              <div class="row">
+                  <div>Player</div>
+                  <div>R1 Score</div>
+                  <div>R2 Score</div>
+                  <div>R3 Score</div>
+                  <div>R4 Score</div>
+              </div>
+          </div>`;
+
+        console.log("data", data);
+        data.teams.sort((a, b) => a.player_ranking_at_event - b.player_ranking_at_event);
+        data.teams.forEach(user => {
+          var playerTeamDiv = document.createElement("div");
+          playerTeamDiv.classList.add("playerteam");
+          var playerNameDiv = document.createElement("div");
+          playerNameDiv.setAttribute("id", `playername-${user.user_id}`);
+          playerNameDiv.innerHTML = `${user.team[0].username}`
+          playerTeamDiv.appendChild(playerNameDiv);
+          leaderboardDiv.appendChild(playerTeamDiv);
+          user.team.forEach((player, index) => {
+            var divRow = document.createElement("div");
+            divRow.classList.add("row");
+            var divRowPlayer = document.createElement("div");
+            var divRowR1Score = document.createElement("div");
+            var divRowR2Score = document.createElement("div");
+            var divRowR3Score = document.createElement("div");
+            var divRowR4Score = document.createElement("div");
+
+            divRowPlayer.innerHTML = player.player;
+            if (user.currentRound == 1) {
+              divRowR1Score.innerHTML = player.projectedScore;
+              user.projectedR1Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              user.tournamentTotal = user.projectedR1Total;
+              divRowR2Score.innerHTML = "";
+              divRowR3Score.innerHTML = "";
+              divRowR4Score.innerHTML = "";
+            }
+            if (player.currentRound == 2) {
+              divRowR1Score.innerHTML = player.r1score;
+              divRowR2Score.innerHTML = player.projectedScore;
+              user.projectedR2Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
+              user.tournamentTotal = R1Total + projectedR2Total;
+              divRowR3Score.innerHTML = "";
+              divRowR4Score.innerHTML = "";
+            }
+            if (player.currentRound == 3) {
+              divRowR1Score.innerHTML = player.r1score;
+              divRowR2Score.innerHTML = player.r2score;
+              user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
+              user.R2Total = user.team.reduce((acc, item) => acc + item.r2Score, 0);
+              user.projectedR3Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              user.tournamentTotal = user.R1Total + user.R2Total + user.projectedR3Total;
+              divRowR3Score.innerHTML = player.projectedScore;
+              divRowR4Score.innerHTML = "";
+            }
+            if (player.currentRound == 4) {
+              divRowR1Score.innerHTML = player.r1score;
+              divRowR2Score.innerHTML = player.r2score;
+              divRowR3Score.innerHTML = player.r3score;
+              user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
+              user.R2Total = user.team.reduce((acc, item) => acc + item.r2Score, 0);
+              user.R3Total = user.team.reduce((acc, item) => acc + item.r3Score, 0);
+              user.projectedR4Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              user.tournamentTotal = user.R1Total + user.R2Total + user.R3Total;
+              divRowR4Score.innerHTML = player.projectedScore;
+            }
+            divRow.appendChild(divRowPlayer);
+            divRow.appendChild(divRowR1Score);
+            divRow.appendChild(divRowR2Score);
+            divRow.appendChild(divRowR3Score);
+            divRow.appendChild(divRowR4Score);
+            playerTeamDiv.appendChild(divRow);
+
+            if (index == 3) {
+              var totalDiv = document.createElement("div");
+              var totalTitleDiv = document.createElement("div");
+              totalTitleDiv.innerHTML = "Total";
+              totalDiv.classList.add("row");
+              totalDiv.appendChild(totalTitleDiv);
+              playerTeamDiv.appendChild(totalDiv);
+              var totalR1div = document.createElement("div");
+              var totalR2div = document.createElement("div");
+              var totalR3div = document.createElement("div");
+              var totalR4div = document.createElement("div");
+
+              if (user.currentRound == 1) {
+                totalR1div.innerHTML = `${user.projectedR1Total}`;
+                totalR2div.innerHTML = "";
+                totalR3div.innerHTML = "";
+                totalR4div.innerHTML = "";
+              } else {
+                totalR1div.innerHTML = `${user.R1Total}`;
+              }
+
+              if (user.currentRound == 2) {
+                totalR2div.innerHTML = `${user.projectedR2Total}`;
+                totalR3div.innerHTML = "";
+                totalR4div.innerHTML = "";
+              } else if (user.currentRound > 2) {
+                totalR2div.innerHTML = `${user.R2Total}`;
+              }
+
+              if (user.currentRound == 3) {
+                totalR3div.innerHTML = `${user.projectedR3Total}`;
+                totalR4div.innerHTML = "";
+              } else if (user.currentRound > 3) {
+                totalR3div.innerHTML = `${user.R3Total}`
+              }
+
+              if (user.currentRound == 4) {
+                totalR4div.innerHTML = `${user.projectedR4Total}`;
+              }
+              totalDiv.appendChild(totalR1div);
+              totalDiv.appendChild(totalR2div);
+              totalDiv.appendChild(totalR3div);
+              totalDiv.appendChild(totalR4div);
+            }
+            
+          })
+        })
+      })
+    }, 30000);
+
+    
+  }
+  </script>
+  </script>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>Fantasy Golf</title>
+  </head>
+  <style>
+      .fixed {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          padding: 10px;
+          border-bottom: 3px solid orange;
+          background: white;
+      }
+      #ogwr {
+          padding-top: 12%;
+      }
+      #ogwr > div {
+          cursor: pointer;
+          margin: 5px;
+      }
+      #ogwr > div:hover {
+          background: #ddd;
+      }
+      #successmessage {
+          background: lime;
+          display: none;
+          opacity: 0;
+          transition: all .5s ease-in;
+      }
+      #successmessage.active {
+          display: block;
+          opacity: 1;
+      }
+  </style>
+  <body>
+    <div class="fixed">
+        <p>Create your team for THE 2019 MASTERS TOURNAMENT.</p>
+        <p id="successmessage">Your team was successfully saved</p>
+        <div>
+            <a href="/">Back to Home</a>
+        </div>
+
+        <div>Tier 1 Golfer: <span id="t1"></span></div>
+        <div>Tier 2 Golfer: <span id="t2"></span></div>
+        <div>Tier 3 Golfer: <span id="t3"></span></div>
+        <div>Tier 4 Golfer: <span id="t4"></span></div>
+        <button id="saveteam">Save Team</button>
+        <button id="clearteam">Clear Team</button>
+    </div>
+    <div id="ogwr">
+        <h3>World Golf Rankings</h3>
+    </div>
+  <script>
+      window.onload = (e) => {
+        let golfRanks;
+        let selections = {
+            tier1: { playerName: null, playerRank: null },
+            tier2: { playerName: null, playerRank: null }, 
+            tier3: { playerName: null, playerRank: null },
+            tier4: { playerName: null, playerRank: null }
+        }  
+        let t1 = document.getElementById("t1");
+        let t2 = document.getElementById("t2");
+        let t3 = document.getElementById("t3");
+        let t4 = document.getElementById("t4");
+        let saveBtn = document.getElementById("saveteam");
+        let clearBtn = document.getElementById("clearteam");
+
+        clearBtn.addEventListener("click", (e) => {
+            selections.tier1 = { playerName: null, playerRank: null };
+            selections.tier2 = { playerName: null, playerRank: null };
+            selections.tier3 = { playerName: null, playerRank: null };
+            selections.tier4 = { playerName: null, playerRank: null };
+            t1.innerHTML = "";
+            t2.innerHTML = "";
+            t3.innerHTML = "";
+            t4.innerHTML = "";
+        })
+
+        saveBtn.addEventListener("click", (e) => {
+            fetch("/saveteam", {
+                method: "POST",
+                body: JSON.stringify(selections),
+                headers: {
+                    "content-type": "application/json"
+                }
+            }).then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("successmessage").classList.add("active");
+                }
+            })
+        })
+
+        fetch("/api/owgr")
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            console.log("data", data);
+            golfRanks = data.players;
+            if (data.selected.length == 4) {
+                selections.tier1 = {
+                    playerName: data.selected[0].player,
+                    playerRank: data.selected[0].player_ranking_at_event
+                }
+                selections.tier2 = {
+                    playerName: data.selected[1].player,
+                    playerRank: data.selected[1].player_ranking_at_event
+                }
+                selections.tier3 = {
+                    playerName: data.selected[2].player,
+                    playerRank: data.selected[2].player_ranking_at_event
+                }
+                selections.tier4 = {
+                    playerName: data.selected[3].player,
+                    playerRank: data.selected[3].player_ranking_at_event
+                }
+
+                t1.innerHTML = `${selections.tier1.playerRank}. ${selections.tier1.playerName}`;
+                t2.innerHTML = `${selections.tier2.playerRank}. ${selections.tier2.playerName}`;
+                t3.innerHTML = `${selections.tier3.playerRank}. ${selections.tier3.playerName}`;
+                t4.innerHTML = `${selections.tier4.playerRank}. ${selections.tier4.playerName}`;
+            }
+              var golfDiv = document.getElementById("ogwr");
+              golfRanks.forEach((golfer, index) => {
+                  var golferTier;
+                  if (index < 10) {
+                      golferTier = 1;
+                  }
+                  if (index >= 10 && index <= 19) {
+                      golferTier = 2;
+                  }
+                  if (index >= 20 && index <= 29) {
+                      golferTier = 3;
+                  }
+                  if (index >= 30) {
+                      golferTier = 4;
+                  }
+                  var newDiv = document.createElement("div");
+                  newDiv.setAttribute("data-rank", golfer.rank);
+                  newDiv.setAttribute("data-tier", golferTier)
+                  newDiv.innerHTML = `${golfer.rank}. ${golfer.player}`;
+                  newDiv.onclick = (e) => {
+                      console.log(e);
+                      console.log(e.srcElement.getAttribute("data-rank"));
+                      switch (e.srcElement.getAttribute("data-tier")) {
+                          case "1":
+                            selections.tier1.playerRank = e.srcElement.innerHTML.split(".")[0];
+                            selections.tier1.playerName = e.srcElement.innerHTML.split(".")[1].trim();
+                            t1.innerHTML = `${selections.tier1.playerRank}. ${selections.tier1.playerName}`;
+                            break;
+                          case "2":
+                            selections.tier2.playerRank = e.srcElement.innerHTML.split(".")[0];
+                            selections.tier2.playerName = e.srcElement.innerHTML.split(".")[1].trim();
+                            t2.innerHTML = `${selections.tier2.playerRank}. ${selections.tier2.playerName}`;
+                            break;
+                          case "3":
+                            selections.tier3.playerRank = e.srcElement.innerHTML.split(".")[0];
+                            selections.tier3.playerName = e.srcElement.innerHTML.split(".")[1].trim();
+                            t3.innerHTML = `${selections.tier3.playerRank}. ${selections.tier3.playerName}`;
+                            break;
+                          case "4":
+                            selections.tier4.playerRank = e.srcElement.innerHTML.split(".")[0];
+                            selections.tier4.playerName = e.srcElement.innerHTML.split(".")[1].trim();
+                            t4.innerHTML = `${selections.tier4.playerRank}. ${selections.tier4.playerName}`;
+                            break;
+                      }
+                      console.log("roster", selections)
+                  }
+                  golfDiv.append(newDiv);
+            })
+        });
+        // fetch("https://statdata.pgatour.com/r/stats/2019/02671.json")
+        //   .then(res => {
+        //       return res.json();
+        //   })
+        //   .then(data => {
+        //       console.log(data.tours[0].years[0].stats[0].details);
+        //       golfRanks = data.tours[0].years[0].stats[0].details;
+        //       var golfDiv = document.getElementById("ogwr");
+        //       golfRanks.forEach((golfer, index) => {
+        //           var golferTier;
+        //           if (index < 10) {
+        //               golferTier = 1;
+        //           }
+        //           if (index >= 10 && index <= 19) {
+        //               golferTier = 2;
+        //           }
+        //           if (index >= 20 && index <= 29) {
+        //               golferTier = 3;
+        //           }
+        //           if (index >= 30) {
+        //               golferTier = 4;
+        //           }
+        //           var newDiv = document.createElement("div");
+        //           newDiv.setAttribute("data-rank", golfer.curRank);
+        //           newDiv.setAttribute("data-tier", golferTier)
+        //           newDiv.innerHTML = `${golfer.curRank}. ${golfer.plrName.first} ${golfer.plrName.last}`;
+        //           newDiv.onclick = (e) => {
+        //               console.log(e);
+        //               console.log(e.srcElement.getAttribute("data-rank"));
+        //               switch (e.srcElement.getAttribute("data-tier")) {
+        //                   case "1":
+        //                     selections.tier1 = e.srcElement.innerHTML;
+        //                     t1.innerHTML = selections.tier1;
+        //                     break;
+        //                   case "2":
+        //                     selections.tier2 = e.srcElement.innerHTML;
+        //                     t2.innerHTML = selections.tier2;
+        //                     break;
+        //                   case "3":
+        //                     selections.tier3 = e.srcElement.innerHTML;
+        //                     t3.innerHTML = selections.tier3;
+        //                     break;
+        //                   case "4":
+        //                     selections.tier4 = e.srcElement.innerHTML;
+        //                     t4.innerHTML = selections.tier4;
+        //                     break;
+        //               }
+        //               console.log("roster", selections)
+        //           }
+        //           golfDiv.append(newDiv);
+        //       })
+        //   })
+      };
+  </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>Fantasy Golf</title>
+  </head>
+  <body>
+    <div>
+        <div>Tier 1 Golfer: <span id="t1"></span> -- R1 -- <span id="t1r1"></span> -- R2 -- <span id="t1r2"></span> -- R3 -- <span id="t1r3"></span> -- R4 -- <span id="t1r4"></span></div>
+        <div>Tier 2 Golfer: <span id="t2"></span> -- R1 -- <span id="t2r1"></span> -- R2 -- <span id="t2r2"></span> -- R3 -- <span id="t2r3"></span> -- R4 -- <span id="t2r4"></span></div>
+        <div>Tier 3 Golfer: <span id="t3"></span> -- R1 -- <span id="t3r1"></span> -- R2 -- <span id="t3r2"></span> -- R3 -- <span id="t3r3"></span> -- R4 -- <span id="t3r4"></span></div>
+        <div>Tier 4 Golfer: <span id="t4"></span> -- R1 -- <span id="t4r1"></span> -- R2 -- <span id="t4r2"></span> -- R3 -- <span id="t4r3"></span> -- R4 -- <span id="t4r4"></span></div>
+    </div>
+  </body>
+
+  <script>
+  window.onload = (e) => {
+    var state = {};
+    var t1 = document.getElementById("t1");
+    var t2 = document.getElementById("t2");
+    var t3 = document.getElementById("t3");
+    var t4 = document.getElementById("t4");
+    
+    var t1r1 = document.getElementById("t1r1");
+    var t1r2 = document.getElementById("t1r2");
+    var t1r3 = document.getElementById("t1r3");
+    var t1r4 = document.getElementById("t1r4");
+    var t2r1 = document.getElementById("t2r1");
+    var t2r2 = document.getElementById("t2r2");
+    var t2r3 = document.getElementById("t2r3");
+    var t2r4 = document.getElementById("t2r4");
+    var t3r1 = document.getElementById("t3r1");
+    var t3r2 = document.getElementById("t3r2");
+    var t3r3 = document.getElementById("t3r3");
+    var t3r4 = document.getElementById("t3r4");
+    var t4r1 = document.getElementById("t4r1");
+    var t4r2 = document.getElementById("t4r2");
+    var t4r3 = document.getElementById("t4r3");
+    var t4r4 = document.getElementById("t4r4");
+
+
+    fetch("/api/viewcurrentteam")
+    .then(res => { return res.json() })
+    .then(data => {
+      data.team.sort((a, b) => a.player_ranking_at_event - b.player_ranking_at_event);
+      t1.innerHTML = `${data.team[0].player_ranking_at_event}. ${data.team[0].player}`
+      t2.innerHTML = `${data.team[1].player_ranking_at_event}. ${data.team[1].player}`
+      t3.innerHTML = `${data.team[2].player_ranking_at_event}. ${data.team[2].player}`
+      t4.innerHTML = `${data.team[3].player_ranking_at_event}. ${data.team[3].player}`
+    })
+  }
+  </script>
+</html>
