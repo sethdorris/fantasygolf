@@ -120,8 +120,10 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             if (o.round == "--") {
                 o.round = 0;
             }
-            return o.round;
+            console.log("typeof round", typeof o.round);
+            return parseInt(o.round);
         });
+        var lowestScore2 = Math.min(...fieldRoundScores)
         var lowestScore = Math.min(...fieldRoundScores);
         console.log("Lowerst Score", lowestScore);
         user.team.forEach(golfer => {
@@ -146,7 +148,6 @@ app.get("/api/getleaderboard", async (req, res, next) => {
                 golfer.projectedScore = projectedScore;
             }
         })
-        console.log("lowestScore", lowestScore);
         user.currentRound =leaderboard.tournamentRoundId;
     })
 
