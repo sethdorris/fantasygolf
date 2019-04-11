@@ -71,6 +71,12 @@ app.post("/saveteam", async (req, res, next) => {
     }
     console.log(req.body);
     console.log(req.session)
+    if (req.session.userId == null) {
+        console.log("null")
+    }
+    if (req.session.userId == 'undefined') {
+        console.log("undefined")
+    }
     var savedTeam = await teamDataAccess.saveTeam(req.session.userId, req.body)
     console.log("save team request body", req.body);
     return res.json({ success: true })
