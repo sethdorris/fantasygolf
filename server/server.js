@@ -52,6 +52,7 @@ app.get("/", (req, res, next) => {
 })
 
 app.get("/createteam", (req, res, next) => {
+    console.log("req session", req.session)
     if (req.session.userId) {
         return res.sendFile(path.join(__dirname, "../build", "createteam.html"))
     } else {
