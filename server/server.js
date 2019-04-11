@@ -75,9 +75,9 @@ app.get("/notfound", (req, res, next) => {
 
 app.post("/saveteam", async (req, res, next) => {
     var cutOff = new Date("2019", "03", "10", "00");
-    if (Date.now() > cutOff) {
-        return res.json({ success: false, message: "Missed cutoff time" })
-    }
+    // if (Date.now() > cutOff) {
+    //     return res.json({ success: false, message: "Missed cutoff time" })
+    // }
     var currentTeam = await teamDataAccess.getTeam(req.session.userId);
     if (currentTeam.length > 0) {
         var removeTeam = await teamDataAccess.deleteTeam(req.session.userId, 1);
