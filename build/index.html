@@ -77,7 +77,7 @@
           playerTeamDiv.classList.add("playerteam");
           var playerNameDiv = document.createElement("div");
           playerNameDiv.setAttribute("id", `playername-${user.user_id}`);
-          playerNameDiv.innerHTML = `${user.team[0].username}`
+          playerNameDiv.innerHTML = `${user.team[0].username} (${user.team[0].first_name})`
           playerTeamDiv.appendChild(playerNameDiv);
           leaderboardDiv.appendChild(playerTeamDiv);
           user.team.forEach((player, index) => {
