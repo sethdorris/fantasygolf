@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 
 console.log("DB Connection", dbenvironment)
 //sets the ability to serve and use static assets js/css in our public build folder
-// app.use(express.static(path.join(__dirname, '..', 'build')));
 
 //sets session store as postgres database
 var knex = Knex({
@@ -50,6 +49,8 @@ app.get("/", (req, res, next) => {
         return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
     }
 })
+
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
 app.get("/register", (req, res, next) => {
     return res.sendFile(path.join(__dirname, "../build", "register.html"))
