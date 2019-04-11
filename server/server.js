@@ -70,6 +70,7 @@ app.post("/saveteam", async (req, res, next) => {
         var removeTeam = await teamDataAccess.deleteTeam(req.session.userId, 1);
     }
     console.log(req.body);
+    console.log(req.session)
     var savedTeam = await teamDataAccess.saveTeam(req.session.userId, req.body)
     console.log("save team request body", req.body);
     return res.json({ success: true })
