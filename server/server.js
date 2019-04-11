@@ -75,7 +75,7 @@ app.get("/notfound", (req, res, next) => {
 
 app.post("/saveteam", async (req, res, next) => {
     var cutOff = new Date("2019", "03", "10", "00");
-    if (Date.now > cutOff) {
+    if (Date.now() > cutOff) {
         return res.json({ success: false, message: "Missed cutoff time" })
     }
     var currentTeam = await teamDataAccess.getTeam(req.session.userId);
@@ -123,11 +123,9 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             if (o.round == "E") {
                 o.round = 0;
             }
-            console.log("round scores", o.round);
             return parseInt(o.round);
         });
-        console.log("Field Round Scores", fieldRoundScores);
-        var lowestScore2 = Math.min(...fieldRoundScores)
+        
         var lowestScore = Math.min(...fieldRoundScores);
         console.log("Lowerst Score", lowestScore);
         user.team.forEach(golfer => {
@@ -148,7 +146,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
                 if (projectedScore < 0) {
                     projectedScore = 0;
                 }
-                console.log("projectedScore", projectedScore);
+            
                 golfer.projectedScore = projectedScore;
             }
         })
