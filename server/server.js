@@ -51,6 +51,10 @@ app.get("/", (req, res, next) => {
     }
 })
 
+app.get("/register", (req, res, next) => {
+    res.sendFile(path.join(__dirname, "../build", "register.html"))
+})
+
 app.get("/createteam", (req, res, next) => {
     console.log("req session", req.session)
     if (req.session.userId != null) {
