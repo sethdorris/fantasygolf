@@ -29,8 +29,7 @@
 
   <body>
       <a href="createteam.html">Create Team</a>
-      <a href="viewcurrent.html">View Current Team</a>
-      <a href="teamhistory.html">Past Teams</a>
+      <button onclick="logout()">Logout</button>
 
       <div class="leaderboard" id="leaderboard">
           <div class="playerteam">
@@ -46,6 +45,12 @@
       </div>
   </body>
   <script>
+  function logout() {
+    fetch("/logout", {
+      method: "POST"
+    })
+  }
+  
   window.onload = (e) => {
     var leaderboardDiv = document.getElementById("leaderboard");
 
@@ -178,7 +183,7 @@
           })
         })
       })
-    }, 30000);
+    }, 5000);
 
     
   }

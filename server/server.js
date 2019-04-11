@@ -50,10 +50,14 @@ app.get("/", (req, res, next) => {
     }
 })
 
-app.use(express.static(path.join(__dirname, '..', 'build')));
-
 app.get("/register", (req, res, next) => {
     return res.sendFile(path.join(__dirname, "../build", "register.html"))
+})
+
+app.post("/logout", (req, res, next) => {
+    req.session.destroy();
+    console.log("hit");
+    return res.redirect("/");
 })
 
 app.get("/createteam", (req, res, next) => {
@@ -119,6 +123,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             return o.round;
         });
         var lowestScore = Math.min(...fieldRoundScores);
+        console.log("Lowerst Score", lowestScore);
         user.team.forEach(golfer => {
             var actualGolfer = leaderboard.rows.filter(actual => {
                 return actual.playerNames.firstName == golfer.player.split(" ")[0] &&
@@ -137,6 +142,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
                 if (projectedScore < 0) {
                     projectedScore = 0;
                 }
+                console.log("projectedScore", projectedScore);
                 golfer.projectedScore = projectedScore;
             }
         })
@@ -184,6 +190,8 @@ app.use((err, req, res, next) => {
     console.log("Error", err)
     return res.status(500).json({ error: err.message })
 })
+
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("App is running on port 3000");
