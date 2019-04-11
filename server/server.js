@@ -165,7 +165,7 @@ app.use((err, req, res, next) => {
     return res.status(500).json({ error: err.message })
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("App is running on port 3000");
     open("http://localhost:3000");
 });
