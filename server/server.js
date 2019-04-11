@@ -11,12 +11,13 @@ var authDataAccess = require("./datalayer/auth");
 var playersDataAccess = require("./datalayer/players");
 var teamDataAccess = require ("./datalayer/team");
 var fetch = require("node-fetch");
-var dbenvironment = env.development;
+var dbenvironment = env.production;
 
 //******Middleware Setup Section ******
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+console.log("DB Connection", dbenvironment)
 //sets the ability to serve and use static assets js/css in our public build folder
 app.use(express.static(path.join(__dirname, '..', 'build')));
 
@@ -168,3 +169,4 @@ app.listen(3000, () => {
     console.log("App is running on port 3000");
     open("http://localhost:3000");
 });
+
