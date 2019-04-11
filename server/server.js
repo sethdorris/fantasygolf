@@ -41,9 +41,12 @@ app.use(session({
 
 app.get("/", (req, res, next) => {
     console.log("Session Id", req.session.userId);
+    console.log("what")
     if (req.session.userId) {
+        console.log("req", req.session.userId)
         return res.sendFile(path.join(__dirname, "../build", "index.html"))
     } else {
+        console.log("no userid")
         return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
     }
 })
@@ -65,7 +68,7 @@ app.post("/saveteam", async (req, res, next) => {
     if (currentTeam.length > 0) {
         var removeTeam = await teamDataAccess.deleteTeam(req.session.userId, 1);
     }
-    // console.log(req.body);
+    console.log(req.body);
     var savedTeam = await teamDataAccess.saveTeam(req.session.userId, req.body)
     console.log("save team request body", req.body);
     return res.json({ success: true })
