@@ -11,7 +11,7 @@ var authDataAccess = require("./datalayer/auth");
 var playersDataAccess = require("./datalayer/players");
 var teamDataAccess = require ("./datalayer/team");
 var fetch = require("node-fetch");
-var dbenvironment = env.development;
+var dbenvironment = process.ENV == 'production' ? env.production : env.development;
 
 //******Middleware Setup Section ******
 app.use(bodyParser.urlencoded({extended: false}));
