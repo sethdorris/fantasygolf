@@ -11,7 +11,7 @@ var authDataAccess = require("./datalayer/auth");
 var playersDataAccess = require("./datalayer/players");
 var teamDataAccess = require ("./datalayer/team");
 var fetch = require("node-fetch");
-var dbenvironment = env.production;
+var dbenvironment = env.development;
 
 //******Middleware Setup Section ******
 app.use(bodyParser.urlencoded({extended: false}));
@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 console.log("DB Connection", dbenvironment)
 //sets the ability to serve and use static assets js/css in our public build folder
-app.use(express.static(path.join(__dirname, '..', 'build')));
+// app.use(express.static(path.join(__dirname, '..', 'build')));
 
 //sets session store as postgres database
 var knex = Knex({
@@ -40,15 +40,15 @@ app.use(session({
 }));
 
 app.get("/", (req, res, next) => {
-    // console.log("Session Id", req.session.userId);
-    // console.log("what")
-    // if (req.session.userId != null) {
-    //     console.log("req", req.session.userId)
-    //     return res.sendFile(path.join(__dirname, "../build", "index.html"))
-    // } else {
-    //     console.log("no userid")
-    //     return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
-    // }
+    console.log("Session Id", req.session.userId);
+    console.log("what")
+    if (req.session.userId != null) {
+        console.log("req", req.session.userId)
+        return res.sendFile(path.join(__dirname, "../build", "index.html"))
+    } else {
+        console.log("no userid")
+        return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
+    }
 })
 
 app.get("/createteam", (req, res, next) => {
@@ -56,8 +56,12 @@ app.get("/createteam", (req, res, next) => {
     if (req.session.userId != null) {
         return res.sendFile(path.join(__dirname, "../build", "createteam.html"))
     } else {
-        return res.sendFile(__dirname, "../build", "servererror.html")
+        return res.redirect("/notfound");
     }
+})
+
+app.get("/notfound", (req, res, next) => {
+    res.json({ error: "page not found "})
 })
 
 app.post("/saveteam", async (req, res, next) => {
