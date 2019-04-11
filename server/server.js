@@ -120,7 +120,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             if (o.round == "--") {
                 o.round = 0;
             }
-            console.log("typeof round", typeof o.round);
+            console.log("round scores", o.round);
             return parseInt(o.round);
         });
         console.log("Field Round Scores", fieldRoundScores);
