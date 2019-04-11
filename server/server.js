@@ -123,6 +123,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             console.log("typeof round", typeof o.round);
             return parseInt(o.round);
         });
+        console.log("Field Round Scores", fieldRoundScores);
         var lowestScore2 = Math.min(...fieldRoundScores)
         var lowestScore = Math.min(...fieldRoundScores);
         console.log("Lowerst Score", lowestScore);
