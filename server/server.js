@@ -40,15 +40,15 @@ app.use(session({
 }));
 
 app.get("/", (req, res, next) => {
-    console.log("Session Id", req.session.userId);
-    console.log("what")
-    if (req.session.userId != null) {
-        console.log("req", req.session.userId)
-        return res.sendFile(path.join(__dirname, "../build", "index.html"))
-    } else {
-        console.log("no userid")
-        return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
-    }
+    // console.log("Session Id", req.session.userId);
+    // console.log("what")
+    // if (req.session.userId != null) {
+    //     console.log("req", req.session.userId)
+    //     return res.sendFile(path.join(__dirname, "../build", "index.html"))
+    // } else {
+    //     console.log("no userid")
+    //     return res.sendFile(path.join(__dirname, "../build", "unauth.html"))
+    // }
 })
 
 app.get("/createteam", (req, res, next) => {
