@@ -1,5 +1,5 @@
 var env = require("../environment.config");
-var dbenvironment = env.development;
+var dbenvironment = env.production;
 var pg = require("pg");
 var pool = pg.Pool(dbenvironment);
 

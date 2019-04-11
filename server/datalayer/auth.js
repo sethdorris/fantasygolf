@@ -1,6 +1,6 @@
 var env = require("../environment.config");
 var scrypt = require("scrypt-for-humans");
-var dbenvironment = env.development;
+var dbenvironment = env.production;
 var pg = require("pg");
 var pool = pg.Pool(dbenvironment);
 
