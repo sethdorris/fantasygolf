@@ -120,6 +120,9 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             if (o.round == "--") {
                 o.round = 0;
             }
+            if (o.round == "E") {
+                o.round = 0;
+            }
             console.log("round scores", o.round);
             return parseInt(o.round);
         });
