@@ -42,7 +42,7 @@ app.use(session({
 app.get("/", (req, res, next) => {
     console.log("Session Id", req.session.userId);
     console.log("what")
-    if (req.session.userId) {
+    if (req.session.userId != null) {
         console.log("req", req.session.userId)
         return res.sendFile(path.join(__dirname, "../build", "index.html"))
     } else {
@@ -53,7 +53,7 @@ app.get("/", (req, res, next) => {
 
 app.get("/createteam", (req, res, next) => {
     console.log("req session", req.session)
-    if (req.session.userId) {
+    if (req.session.userId != null) {
         return res.sendFile(path.join(__dirname, "../build", "createteam.html"))
     } else {
         return res.sendFile(__dirname, "../build", "servererror.html")
