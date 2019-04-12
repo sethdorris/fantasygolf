@@ -103,7 +103,7 @@
               divRowR2Score.innerHTML = player.projectedScore;
               user.projectedR2Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
               user.R1Total = user.team.reduce((acc, item) => acc + item.r1d_pts_earned, 0);
-              user.tournamentTotal = R1Total + projectedR2Total;
+              user.tournamentTotal = user.R1Total + projectedR2Total;
               divRowR3Score.innerHTML = "";
               divRowR4Score.innerHTML = "";
             }
