@@ -99,7 +99,7 @@
               divRowR4Score.innerHTML = "";
             }
             if (player.currentRound == 2) {
-              divRowR1Score.innerHTML = player.r1score;
+              divRowR1Score.innerHTML = player.r1_pts_earned;
               divRowR2Score.innerHTML = player.projectedScore;
               user.projectedR2Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
               user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
@@ -108,8 +108,8 @@
               divRowR4Score.innerHTML = "";
             }
             if (player.currentRound == 3) {
-              divRowR1Score.innerHTML = player.r1score;
-              divRowR2Score.innerHTML = player.r2score;
+              divRowR1Score.innerHTML = player.r1_pts_earned;
+              divRowR2Score.innerHTML = player.r2_pts_earned;
               user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
               user.R2Total = user.team.reduce((acc, item) => acc + item.r2Score, 0);
               user.projectedR3Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
@@ -118,9 +118,9 @@
               divRowR4Score.innerHTML = "";
             }
             if (player.currentRound == 4) {
-              divRowR1Score.innerHTML = player.r1score;
-              divRowR2Score.innerHTML = player.r2score;
-              divRowR3Score.innerHTML = player.r3score;
+              divRowR1Score.innerHTML = player.r1_pts_earned;
+              divRowR2Score.innerHTML = player.r2_pts_earned;
+              divRowR3Score.innerHTML = player.r3_pts_earned;
               user.R1Total = user.team.reduce((acc, item) => acc + item.r1Score, 0);
               user.R2Total = user.team.reduce((acc, item) => acc + item.r2Score, 0);
               user.R3Total = user.team.reduce((acc, item) => acc + item.r3Score, 0);
