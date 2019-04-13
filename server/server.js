@@ -136,7 +136,7 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             console.log("Actual Golfer", actualGolfer);
             if (actualGolfer.length > 0) {
                 golfer.currentTotal = actualGolfer[0].total;
-                if (actualGolfer[0].tournamentRoundId > 2 && actualGolfer[0].teeTime == null) {
+                if (actualGolfer[0].tournamentRoundId > 2 && actualGolfer[0].playerRoundId == 2) {
                     golfer.missedCut = true;
                 } 
                 golfer.thru = actualGolfer[0].thru;
