@@ -112,11 +112,10 @@
               divRowR2Score.innerHTML = player.rd2_pts_earned;
               user.R1Total = user.team.reduce((acc, item) => acc + item.rd1_pts_earned, 0);
               user.R2Total = user.team.reduce((acc, item) => acc + item.rd2_pts_earned, 0);
-              if (user.missedCut == true) {
-                user.projectedR3Total = 0;
-              } else {
-                user.projectedR3Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              if (player.missedCut == true) {
+                player.projectedScore = 0;
               }
+              user.projectedR3Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
               user.tournamentTotal = user.R1Total + user.R2Total + user.projectedR3Total;
               divRowR3Score.innerHTML = player.projectedScore;
               divRowR4Score.innerHTML = "";
@@ -128,11 +127,10 @@
               user.R1Total = user.team.reduce((acc, item) => acc + item.rd1_pts_earned, 0);
               user.R2Total = user.team.reduce((acc, item) => acc + item.rd2_pts_earned, 0);
               user.R3Total = user.team.reduce((acc, item) => acc + item.rd3_pts_earned, 0);
-              if (user.missedCut == true) {
-                user.projectedR4Total = 0;
-              } else {
-                user.projectedR4Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
+              if (player.missedCut == true) {
+                player.projectedTotal = 0;
               }
+              user.projectedR4Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
               user.tournamentTotal = user.R1Total + user.R2Total + user.R3Total;
               divRowR4Score.innerHTML = player.projectedScore;
             }
