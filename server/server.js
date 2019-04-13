@@ -150,7 +150,8 @@ app.get("/api/getleaderboard", async (req, res, next) => {
                 golfer.projectedScore = projectedScore;
             }
         })
-        user.currentRound =leaderboard.tournamentRoundId;
+        user.currentRound = leaderboard.tournamentRoundId;
+        console.log("User Team", user);
     })
 
     return res.json({ teams: teams })
