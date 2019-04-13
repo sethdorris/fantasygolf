@@ -136,6 +136,9 @@ app.get("/api/getleaderboard", async (req, res, next) => {
             console.log("Actual Golfer", actualGolfer);
             if (actualGolfer.length > 0) {
                 golfer.currentTotal = actualGolfer[0].total;
+                if (actualGolfer.tournamentRoundId == 3 && actualGolfer.teeTime == null) {
+                    golfer.missedCut = true;
+                } 
                 golfer.thru = actualGolfer[0].thru;
                 golfer.currentRoundScore = actualGolfer[0].round == "--" ? 0 : actualGolfer[0].round;
                 golfer.r1Score = actualGolfer[0].rounds[0].strokes;
