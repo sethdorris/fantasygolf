@@ -128,7 +128,7 @@
               user.R2Total = user.team.reduce((acc, item) => acc + item.rd2_pts_earned, 0);
               user.R3Total = user.team.reduce((acc, item) => acc + item.rd3_pts_earned, 0);
               if (player.missedCut == true) {
-                player.projectedTotal = 0;
+                player.projectedScore = 0;
               }
               user.projectedR4Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
               user.tournamentTotal = user.R1Total + user.R2Total + user.R3Total + user.projectedR4Total;
