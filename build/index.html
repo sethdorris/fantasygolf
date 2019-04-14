@@ -131,7 +131,7 @@
                 player.projectedTotal = 0;
               }
               user.projectedR4Total = user.team.reduce((acc, item) => acc + item.projectedScore, 0);
-              user.tournamentTotal = user.R1Total + user.R2Total + user.R3Total;
+              user.tournamentTotal = user.R1Total + user.R2Total + user.R3Total + user.projectedR4Total;
               divRowR4Score.innerHTML = player.projectedScore;
             }
             divRow.appendChild(divRowPlayer);
