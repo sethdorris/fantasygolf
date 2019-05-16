@@ -11,7 +11,7 @@ var authDataAccess = require("./datalayer/auth");
 var playersDataAccess = require("./datalayer/players");
 var teamDataAccess = require ("./datalayer/team");
 var fetch = require("node-fetch");
-var dbenvironment = env.production;
+var dbenvironment = env.development;
 
 //******Middleware Setup Section ******
 app.use(bodyParser.urlencoded({extended: false}));
@@ -110,6 +110,10 @@ app.get("/api/viewcurrentteam", async (req, res, next) => {
 
     return res.json({ team: currentTeam });
 })
+
+// app.get("/api/forgotpassword", async (req, res, next) => {
+//     var email = await 
+// })
 
 app.get("/api/getleaderboard", async (req, res, next) => {
     var teams = await teamDataAccess.getTeams();

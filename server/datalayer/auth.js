@@ -26,3 +26,10 @@ module.exports.loginUser = async (username, password) => {
     delete user.password;
     return user;
 }
+
+module.exports.getUserByEmail = async (email) => {
+    var grabUserSql = "SELECT * FROM users WHERE email = $1";
+    var result = await pool.query(grabUserSql, [email]);
+    delete result.rows[0].password;
+    return result.rows[0];
+}

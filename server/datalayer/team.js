@@ -15,6 +15,7 @@ module.exports.getTeams = async () => {
         FROM
         (SELECT users_tournaments_players.*, users.username, users.first_name, users.last_name
         FROM users_tournaments_players
+        WHERE users_tournaments_players.tournament_id = 2
         INNER JOIN users
         ON users_tournaments_players.user_id = users.id) AS json_rows
         GROUP BY user_id)
