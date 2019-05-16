@@ -21,6 +21,7 @@ module.exports.getTeams = async () => {
         GROUP BY user_id)
         SELECT wt.user_id, team_json.team::jsonb[]
         FROM users_tournaments_players AS wt
+        WHERE users_tournaments_players.tournament_id = 2
         INNER JOIN team_json
         ON team_json.user_id = wt.user_id
         GROUP BY wt.user_id, team_json.team::jsonb[]`;
