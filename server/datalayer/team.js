@@ -38,7 +38,7 @@ module.exports.deleteTeam = async (user_id, tournament_id) => {
 }
 
 module.exports.saveTeam = async (user_id, team) => {
-    var sql = `INSERT INTO  users_tournaments_players (user_id, tournament_id, player, player_ranking_at_event) VALUES ($1, 1, $2, $3);`
+    var sql = `INSERT INTO  users_tournaments_players (user_id, tournament_id, player, player_ranking_at_event) VALUES ($1, 2, $2, $3);`
     await pool.query(sql, [user_id, team.tier1.playerName, team.tier1.playerRank]);
     await pool.query(sql, [user_id, team.tier2.playerName, team.tier2.playerRank]);
     await pool.query(sql, [user_id, team.tier3.playerName, team.tier3.playerRank]);
