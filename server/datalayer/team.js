@@ -4,7 +4,7 @@ var pg = require("pg");
 var pool = pg.Pool(dbenvironment);
 
 module.exports.getTeam = async (id) => {
-    var sql = `SELECT * FROM users_tournaments_players WHERE user_id = $1`;
+    var sql = `SELECT * FROM users_tournaments_players WHERE user_id = $1 and tournament_id = 2`;
     var team = await pool.query(sql, [id]);
     return team.rows;
 }
