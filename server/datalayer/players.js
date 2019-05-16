@@ -4,7 +4,7 @@ var pg = require("pg");
 var pool = pg.Pool(dbenvironment);
 
 module.exports.getOgwr = async () => {
-    var sql = "SELECT * FROM owgr;";
+    var sql = "SELECT * FROM owgr ORDER BY rank;";
     var result = await pool.query(sql);
     return result.rows;
 }
