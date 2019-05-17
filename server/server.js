@@ -117,7 +117,7 @@ app.get("/api/viewcurrentteam", async (req, res, next) => {
 
 app.get("/api/getleaderboard", async (req, res, next) => {
     var teams = await teamDataAccess.getTeams();
-    var leaderboard = await fetch("https://lbdata.pgatour.com/2019/r/014/leaderboard.json").then(res => { return res.json() });
+    var leaderboard = await fetch("https://lbdata.pgatour.com/2019/r/033/leaderboard.json").then(res => { return res.json() });
     
     teams.forEach(user => {
         var fieldRoundScores = leaderboard.rows.map(o => {
